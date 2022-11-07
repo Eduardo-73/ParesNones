@@ -4,7 +4,9 @@
  */
 package ParesoNones;
 
+import java.util.InputMismatchException;
 import java.util.Random;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -14,14 +16,17 @@ import javax.swing.JOptionPane;
 public class ParesNones {
 
     public static void main(String[] args) {
-        String menu, ganador;
-        int numero = 0, numRandom = 0;
+        String menu, saberParesNones, elegir;
+        int numero = 0, numRandom = 0, suma = 0;
+        //número es el jugador y numRandom la máquina;
         do {
             menu = menuParesNones();
             if (menu.equalsIgnoreCase("si")) {
-                numero = elegirParesONones();
+                elegir = elegirParesNones();
+                numero = elegirNumeroDedos();
                 numRandom = numeroRandom();
-               ganador = elegirElGanador(numero, numRandom);
+                suma = sumaParesNones(numero, numRandom);
+                saberParesNones = conocerParesNones(suma);
             }
         } while (!menu.equalsIgnoreCase("no"));
     }
@@ -39,57 +44,77 @@ public class ParesNones {
         return JOptionPane.showInputDialog("¿Si o No?");
     }
 
-    public static int elegirParesONones() {
+    public static String elegirParesNones() {
+        String paresNones = "";
+        do {
+            try {
+                paresNones = JOptionPane.showInputDialog("Elige pares o nones ");
+            } catch (InputMismatchException ime) {
+                JOptionPane.showMessageDialog(null, "No has elegido pares o nones");
+            }
+        } while (!(paresNones.equalsIgnoreCase("pares") || paresNones.equalsIgnoreCase("nones")));
+        return paresNones;
+    }
+
+    public static int elegirNumeroDedos() {
 
         int numero;
-        numero = Integer.parseInt(JOptionPane.showInputDialog("Introduce un número de dedos del 1 al 10 "));
 
-        if (numero % 2 == 0) {
-            JOptionPane.showMessageDialog(null,
-                    "El número que has elegido es par " + numero);
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "El número que has elegido es impar " + numero);
-        }
+        numero = Integer.parseInt(JOptionPane.showInputDialog("Introduce un número de dedos del 1 al 10 "));
+        do {
+            try {
+             if(numero <= 1 || numero >= 10){ 
+                numero = Integer.parseInt(JOptionPane.showInputDialog("Introduce un número de dedos del 1 al 10 "));
+            }
+             }catch(NumberFormatException nfe){
+             JOptionPane.showMessageDialog(null, "Escribe un número ");
+            }
+            break;
+        } while (true);
+        JOptionPane.showMessageDialog(null, "El número de dedos que has elegido es el " + numero);
+
         return numero;
     }
 
     public static int numeroRandom() {
         int numAleatorio;
+
         Random numRandom = new Random();
 
         numAleatorio = numRandom.nextInt(0, 11);
 
-        if (numAleatorio % 2 == 0) {
-            JOptionPane.showMessageDialog(null,
-                    "El número que ha elegido el sistema es par " + numAleatorio);
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "El número que ha elegido el sistema es impar " + numAleatorio);
-        }
+        JOptionPane.showMessageDialog(null, "El número de dedos que ha elegido el sistema es el " + numAleatorio);
+
         return numAleatorio;
     }
-    
-    public static String elegirElGanador(int numero, int numRandom){
-        String ganador = "";
-        if(numero > numRandom){
-            JOptionPane.showMessageDialog(null,
-                    """
-                    ---------------------------
-                       ¡¡¡¡¡ENHORABUENA!!!!!
-                    ---------------------------
-                    Le has ganado al sistema <3
-                           """);
-        }else{
-            JOptionPane.showMessageDialog(null,
-                    """
-                    ---------------------------
-                           Has perdido, 
-                    la proxima vez sera campeón
-                    ---------------------------
-                           """);
-            
-        }
-        return ganador;
+
+    public static int sumaParesNones(int numero, int numRandom) {
+        int suma = numero + numRandom;
+
+        return suma;
     }
+
+    public static String conocerParesNones(int suma) {
+        String conocerParesNones = "";
+        if (suma % 2 == 0) {
+            JOptionPane.showMessageDialog(null,
+                    """
+                    ----------------------------
+                        El resultado es PAR
+                    ----------------------------
+                                %d
+                           """.formatted(suma));
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    """
+                   ------------------------------
+                       El resultado es IMPAR
+                   ------------------------------
+                                %d
+                           """.formatted(suma));
+
+        }
+        return conocerParesNones;
+    }
+    
 }
