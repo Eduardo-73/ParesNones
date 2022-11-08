@@ -16,18 +16,18 @@ import javax.swing.JOptionPane;
 public class ParesNones {
 
     public static void main(String[] args) {
-        String menu, saberParesNones, elegir, ganadorJuego;
+        String menu, saberParesNones, elegirParesNones, ganadorJuego;
         int numero = 0, numRandom = 0, suma = 0;
         //número es el jugador y numRandom la máquina;
         do {
             menu = menuParesNones();
             if (menu.equalsIgnoreCase("si")) {
-                elegir = elegirParesNones();
+                elegirParesNones = elegirParesNones();
                 numero = elegirNumeroDedos();
                 numRandom = numeroRandom();
                 suma = sumaParesNones(numero, numRandom);
                 saberParesNones = conocerParesNones(suma);
-                ganadorJuego = elegirGanador(elegir, saberParesNones);
+                ganadorJuego = elegirGanador(elegirParesNones, saberParesNones);
             }
         } while (!menu.equalsIgnoreCase("no"));
     }
@@ -119,9 +119,9 @@ public class ParesNones {
         return conocerParesNones;
     }
     //conocer el ganador del juego
-    public static String elegirGanador(String elegir, String saberParesNones) {
+    public static String elegirGanador(String elegirParesNones, String saberParesNones) {
         String ganador = "";
-        if (elegir == saberParesNones) {
+        if (elegirParesNones == saberParesNones) {
             JOptionPane.showMessageDialog(null, "Has ganado ");
         } else {
             JOptionPane.showMessageDialog(null, "Ha ganado el sistema ");
