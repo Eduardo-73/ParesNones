@@ -64,13 +64,14 @@ public class JuegoDeLaMorra {
 
         do {
             try {
-                
+
                 numero = Integer.parseInt(JOptionPane.showInputDialog("Introduce un número del 1 al 5"));
-               do{
-                if(numero <= 1 || numero >= 5)
-                numero = Integer.parseInt(JOptionPane.showInputDialog("Introduce un número del 1 al 5"));
-                break;       
-               }while(true);
+                do {
+                    if (numero <= 1 || numero >= 5) {
+                        numero = Integer.parseInt(JOptionPane.showInputDialog("Introduce un número del 1 al 5"));
+                    }
+                    break;
+                } while (true);
                 break;
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(null,
