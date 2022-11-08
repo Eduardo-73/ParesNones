@@ -12,15 +12,15 @@ import javax.swing.JOptionPane;
  * @author eduar
  */
 public class JuegoDeLaMorra {
-
+     //Juego de la morra
     public static void main(String[] args) {
-        String menuJuego, menuExplicativo;
-        int numUsuario, numRandom;
-
+        String menuJuego, menuExplicativo, datosUsuMaq;
+        int numUsuario, numRandom, numUsuarioAdivinar, numMaqAdivinar;
+        //creo un do while que se repite hasta que el usuario introduce salir o 3
         do {
 
             menuJuego = menuJuegoMorra();
-
+        //por si no se sabe como se juega al juego he puesto una explicacion que se accede mediante 2 o como se juega
             if (menuJuego.equalsIgnoreCase("como se juega")
                     || menuJuego.equalsIgnoreCase("2")) {
                 menuExplicativo = explicacionJuego();
@@ -28,13 +28,16 @@ public class JuegoDeLaMorra {
             if (menuJuego.equalsIgnoreCase("jugar")
                     || menuJuego.equalsIgnoreCase("1")) {
                 numUsuario = numeroUsuario();
+                numUsuarioAdivinar = adivinarNumeroRival();
                 numRandom = numeroMaquinaAleatorio();
+                numMaqAdivinar = numMaquinaAdivinar();
+                datosUsuMaq = datosUsuario(numUsuario, numUsuarioAdivinar, numRandom, numMaqAdivinar);
             }
 
         } while (!(menuJuego.equalsIgnoreCase("salir")
                 || menuJuego.equalsIgnoreCase("3")));
     }
-
+    //Pongo el menu en un string
     public static String menuJuegoMorra() {
         String menu = JOptionPane.showInputDialog("""
                        ---------------------------
@@ -48,7 +51,7 @@ public class JuegoDeLaMorra {
 
         return menu;
     }
-
+    //La explicación del juego 
     public static String explicacionJuego() {
         String explicacion = """
                                 La morra es un juego de 2 personas, que consiste 
@@ -58,7 +61,7 @@ public class JuegoDeLaMorra {
         JOptionPane.showMessageDialog(null, explicacion);
         return explicacion;
     }
-
+    //Números a introdur el usuario y la maquina
     public static int numeroUsuario() {
         int numero = 0;
 
@@ -79,9 +82,30 @@ public class JuegoDeLaMorra {
             }
         } while (true);
 
-        JOptionPane.showMessageDialog(null, "El número elegido es el " + numero);
-
         return numero;
+    }
+    //Números que escribe el usuario y la consola para intentar adivinar 
+    public static int adivinarNumeroRival() {
+        int numeroAdivinar = 0;
+
+        do {
+            try {
+
+                numeroAdivinar = Integer.parseInt(JOptionPane.showInputDialog("Vale, ahora tienes que adivinar el número del rival"));
+                do {
+                    if (numeroAdivinar <= 1 || numeroAdivinar >= 5) {
+                        numeroAdivinar = Integer.parseInt(JOptionPane.showInputDialog("Vale, ahora tienes que adivinar el número del rival"));
+                    }
+                    break;
+                } while (true);
+                break;
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(null,
+                        "No has introducido los datos correctos");
+            }
+        } while (true);
+
+        return numeroAdivinar;
     }
 
     public static int numeroMaquinaAleatorio() {
@@ -96,5 +120,33 @@ public class JuegoDeLaMorra {
                 "El número elegido por la máquina es el " + numAleatorio);
 
         return numAleatorio;
+    }
+
+    public static int numMaquinaAdivinar() {
+        Random aleatorio = new Random();
+
+        int numMaquinaAdivinar;
+
+        numMaquinaAdivinar = aleatorio.nextInt(1, 6);
+
+        return numMaquinaAdivinar;
+    }
+    //imprimo los datos por JOptionPane
+    public static String datosUsuario(int numUsuario, int numUsuarioAdivinar, int numRandom, int numMaqAdivinar) {
+        String txt = "";
+
+        JOptionPane.showMessageDialog(null,
+                """
+                    Has elegido el número %d y el número a adivinar que has 
+                    elegido es el %d.
+                       """.formatted(numUsuario, numUsuarioAdivinar));
+        JOptionPane.showMessageDialog(null,
+                """
+                    La máquiana ha elegido el número %d y el número a adivinar 
+                    que ha elegido es el %d.
+                       """.formatted(numRandom, numMaqAdivinar));
+
+        return txt;
+
     }
 }
