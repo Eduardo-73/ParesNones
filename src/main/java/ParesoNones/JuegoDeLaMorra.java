@@ -15,8 +15,8 @@ public class JuegoDeLaMorra {
     //Juego de la morra
 
     public static void main(String[] args) {
-        String menuJuego, menuExplicativo, datosUsuMaq, elegirGanador;
-        int numUsuario, numRandom, numUsuarioAdivinar, numMaqAdivinar, sumaNumero;
+        String menuJuego, menuExplicativo, datosUsuMaq;
+        int numUsuario, numRandom, numUsuarioAdivinar, numMaqAdivinar, sumaNumero, elegirGanador;
         //creo un do while que se repite hasta que el usuario introduce salir o 3
         do {
 
@@ -28,6 +28,7 @@ public class JuegoDeLaMorra {
             }
             if (menuJuego.equalsIgnoreCase("jugar")
                     || menuJuego.equalsIgnoreCase("1")) {
+                for (int ronda = 0; ronda < 5; ronda++) {
                 numUsuario = numeroUsuario();
                 numUsuarioAdivinar = adivinarNumeroRival();
                 numRandom = numeroMaquinaAleatorio();
@@ -35,6 +36,7 @@ public class JuegoDeLaMorra {
                 datosUsuMaq = datosUsuario(numUsuario, numUsuarioAdivinar, numRandom, numMaqAdivinar);
                 sumaNumero = sumaDedos(numUsuario, numRandom);
                 elegirGanador = elegirGanador(sumaNumero, numUsuarioAdivinar, numMaqAdivinar);
+                }
             }
 
         } while (!(menuJuego.equalsIgnoreCase("salir")
@@ -161,14 +163,18 @@ public class JuegoDeLaMorra {
 
     }
 
-    public static String elegirGanador(int sumaNumero, int numUsuarioAdivinar, int numMaqAdivinar) {
-        String ganador = "";
+    public static int elegirGanador(int sumaNumero, int numUsuarioAdivinar, int numMaqAdivinar) {
+        int ganador = 0;
         
         if (sumaNumero == numUsuarioAdivinar) {
-            JOptionPane.showMessageDialog(null, "Has ganado " );
-    
+            int ganadorUsuario = 0;
+            ganadorUsuario++;
+            JOptionPane.showMessageDialog(null, "Has ganado " + "+" + ganadorUsuario);
+            
         } else if (sumaNumero == numMaqAdivinar) {
-            JOptionPane.showMessageDialog(null, "Ha ganado la máquina " );
+            int ganadorMaquina = 0;
+            ganadorMaquina++;
+            JOptionPane.showMessageDialog(null, "Ha ganado la máquina "  + "+" + ganadorMaquina);
         } else {
             JOptionPane.showMessageDialog(null, "Empate ");
         }

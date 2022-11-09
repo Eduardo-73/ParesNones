@@ -34,15 +34,16 @@ public class ParesNones {
     //menu para el juego
     public static String menuParesNones() {
 
-        String txt = """
+        String txt =JOptionPane.showInputDialog 
+             ("""
                      ------------------------
                           Pares o Nones
                      ------------------------
-                     ¿Quieres jugar al juego?
+                         ¿Quieres jugar?
+                            ¿Si o No?
                      ------------------------
-                     """;
-        JOptionPane.showMessageDialog(null, txt);
-        return JOptionPane.showInputDialog("¿Si o No?");
+                     """);
+        return txt;
     }
     // pedir al usuario que elija pares o nones 
     public static String elegirParesNones() {
@@ -123,7 +124,7 @@ public class ParesNones {
         String ganador = "";
         if (elegirParesNones == saberParesNones) {
             JOptionPane.showMessageDialog(null, "Has ganado ");
-        } else {
+        } else if(!(elegirParesNones == saberParesNones)){
             JOptionPane.showMessageDialog(null, "Ha ganado el sistema ");
         }
         return ganador;
