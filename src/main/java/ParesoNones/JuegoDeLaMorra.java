@@ -12,15 +12,16 @@ import javax.swing.JOptionPane;
  * @author eduar
  */
 public class JuegoDeLaMorra {
-     //Juego de la morra
+    //Juego de la morra
+
     public static void main(String[] args) {
-        String menuJuego, menuExplicativo, datosUsuMaq;
-        int numUsuario, numRandom, numUsuarioAdivinar, numMaqAdivinar;
+        String menuJuego, menuExplicativo, datosUsuMaq, elegirGanador;
+        int numUsuario, numRandom, numUsuarioAdivinar, numMaqAdivinar, sumaNumero;
         //creo un do while que se repite hasta que el usuario introduce salir o 3
         do {
 
             menuJuego = menuJuegoMorra();
-        //por si no se sabe como se juega al juego he puesto una explicacion que se accede mediante 2 o como se juega
+            //por si no se sabe como se juega al juego he puesto una explicacion que se accede mediante 2 o como se juega
             if (menuJuego.equalsIgnoreCase("como se juega")
                     || menuJuego.equalsIgnoreCase("2")) {
                 menuExplicativo = explicacionJuego();
@@ -32,11 +33,14 @@ public class JuegoDeLaMorra {
                 numRandom = numeroMaquinaAleatorio();
                 numMaqAdivinar = numMaquinaAdivinar();
                 datosUsuMaq = datosUsuario(numUsuario, numUsuarioAdivinar, numRandom, numMaqAdivinar);
+                sumaNumero = sumaDedos(numUsuario, numRandom);
+                elegirGanador = elegirGanador(sumaNumero, numUsuarioAdivinar, numMaqAdivinar);
             }
 
         } while (!(menuJuego.equalsIgnoreCase("salir")
                 || menuJuego.equalsIgnoreCase("3")));
     }
+
     //Pongo el menu en un string
     public static String menuJuegoMorra() {
         String menu = JOptionPane.showInputDialog("""
@@ -51,6 +55,7 @@ public class JuegoDeLaMorra {
 
         return menu;
     }
+
     //La explicación del juego 
     public static String explicacionJuego() {
         String explicacion = """
@@ -61,6 +66,7 @@ public class JuegoDeLaMorra {
         JOptionPane.showMessageDialog(null, explicacion);
         return explicacion;
     }
+
     //Números a introdur el usuario y la maquina
     public static int numeroUsuario() {
         int numero = 0;
@@ -84,6 +90,7 @@ public class JuegoDeLaMorra {
 
         return numero;
     }
+
     //Números que escribe el usuario y la consola para intentar adivinar 
     public static int adivinarNumeroRival() {
         int numeroAdivinar = 0;
@@ -91,10 +98,10 @@ public class JuegoDeLaMorra {
         do {
             try {
 
-                numeroAdivinar = Integer.parseInt(JOptionPane.showInputDialog("Vale, ahora tienes que adivinar el número del rival"));
+                numeroAdivinar = Integer.parseInt(JOptionPane.showInputDialog("Vale, ahora tienes que adivinar el total "));
                 do {
-                    if (numeroAdivinar <= 1 || numeroAdivinar >= 5) {
-                        numeroAdivinar = Integer.parseInt(JOptionPane.showInputDialog("Vale, ahora tienes que adivinar el número del rival"));
+                    if (numeroAdivinar <= 1 || numeroAdivinar >= 10) {
+                        numeroAdivinar = Integer.parseInt(JOptionPane.showInputDialog("Vale, ahora tienes que adivinar el total "));
                     }
                     break;
                 } while (true);
@@ -114,10 +121,7 @@ public class JuegoDeLaMorra {
 
         int numAleatorio;
 
-        numAleatorio = aleatorio.nextInt(1, 6);
-
-        JOptionPane.showMessageDialog(null,
-                "El número elegido por la máquina es el " + numAleatorio);
+        numAleatorio = aleatorio.nextInt(0, 6);
 
         return numAleatorio;
     }
@@ -127,11 +131,18 @@ public class JuegoDeLaMorra {
 
         int numMaquinaAdivinar;
 
-        numMaquinaAdivinar = aleatorio.nextInt(1, 6);
+        numMaquinaAdivinar = aleatorio.nextInt(1, 10);
 
         return numMaquinaAdivinar;
     }
+
     //imprimo los datos por JOptionPane
+    public static int sumaDedos(int numUsuario, int numRandom) {
+        int sumaNum = numUsuario + numRandom;
+        JOptionPane.showMessageDialog(null, sumaNum);
+        return sumaNum;
+    }
+
     public static String datosUsuario(int numUsuario, int numUsuarioAdivinar, int numRandom, int numMaqAdivinar) {
         String txt = "";
 
@@ -149,4 +160,20 @@ public class JuegoDeLaMorra {
         return txt;
 
     }
+
+    public static String elegirGanador(int sumaNumero, int numUsuarioAdivinar, int numMaqAdivinar) {
+        String ganador = "";
+        
+        if (sumaNumero == numUsuarioAdivinar) {
+            JOptionPane.showMessageDialog(null, "Has ganado " );
+    
+        } else if (sumaNumero == numMaqAdivinar) {
+            JOptionPane.showMessageDialog(null, "Ha ganado la máquina " );
+        } else {
+            JOptionPane.showMessageDialog(null, "Empate ");
+        }
+        
+        return ganador;
+    }
+    
 }
